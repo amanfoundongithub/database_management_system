@@ -17,8 +17,11 @@ func CreateDBMSServer() http.Handler {
 	// Wrap the JWT Token producer around it
 	server.HandleFunc(constants.JWT_GENERATE_PATH, handler.RequestJWTHandler)
 
-	// Wrap the SQL Creator Route 
+	// Create route  
 	server.HandleFunc(constants.SQL_CREATE_PATH, handler.CreateTableHandler)
+
+	// Search route 
+	server.HandleFunc(constants.SQL_SEARCH_PATH, handler.FindInTableHandler) 
 
 	// Wrap the Hello world 
 	server.HandleFunc("/hello", handler.HelloWorldHandler)
