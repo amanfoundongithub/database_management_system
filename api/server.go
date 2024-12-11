@@ -26,6 +26,9 @@ func CreateDBMSServer() http.Handler {
 	// Update route
 	server.HandleFunc(constants.SQL_UPDATE_PATH, handler.UpdateHandler) 
 
+	// Delete table route
+	server.HandleFunc(constants.SQL_DELETE_TABLE_PATH, handler.DeleteTableHandler)
+
 	// Wrap the Hello world 
 	server.HandleFunc("/hello", handler.HelloWorldHandler)
 
