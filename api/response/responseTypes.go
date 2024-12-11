@@ -9,3 +9,11 @@ type SingleMessageResponse struct {
 	Message string `json:"message"`
 }
 
+
+type UpdateRequest struct {
+	Table string `json:"table"`
+
+	Where map[string]interface{} `json:"where"`
+
+	Set map[string]interface{} `json:"set"`
+}
