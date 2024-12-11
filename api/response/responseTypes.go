@@ -17,3 +17,10 @@ type UpdateRequest struct {
 
 	Set map[string]interface{} `json:"set"`
 }
+
+
+type TableDeleteRequest struct {
+	Table string `json:"table"`
+
+	Password string `json:"password"`
+}
