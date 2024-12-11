@@ -11,3 +11,14 @@ func Encrypt(source string) (string, error) {
 		return string(hashedPassword), nil
 	}
 }
+
+
+// Verifies the hash of the password
+func VerifyHash(source string, hashed string) bool {
+	if err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(source)) ; err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+

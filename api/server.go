@@ -15,21 +15,24 @@ func CreateDBMSServer() http.Handler {
 	server := http.NewServeMux()
 
 	// Wrap the JWT Token producer around it
-	server.HandleFunc(constants.JWT_GENERATE_PATH, handler.RequestJWTHandler)
+	server.HandleFunc(constants.JWT_GENERATE_PATH,     handler.RequestJWTHandler)
 
-	// Create route  
-	server.HandleFunc(constants.SQL_CREATE_PATH, handler.CreateTableHandler)
+	// Add route
+	server.HandleFunc(constants.SQL_ADD_DATA_PATH,     handler.AddEntryToTableHandler)
 
 	// Search route 
-	server.HandleFunc(constants.SQL_SEARCH_PATH, handler.FindInTableHandler) 
+	server.HandleFunc(constants.SQL_SEARCH_DATA_PATH,  handler.FindInTableHandler) 
 
 	// Update route
-	server.HandleFunc(constants.SQL_UPDATE_PATH, handler.UpdateHandler) 
+	server.HandleFunc(constants.SQL_UPDATE_DATA_PATH,  handler.UpdateHandler) 
+
+	// Create table route 
+	server.HandleFunc(constants.SQL_CREATE_TABLE_PATH, handler.CreateTableHandler)
 
 	// Delete table route
 	server.HandleFunc(constants.SQL_DELETE_TABLE_PATH, handler.DeleteTableHandler)
 
-	// Wrap the Hello world 
+	// Wrap the Hello world (testing only) 
 	server.HandleFunc("/hello", handler.HelloWorldHandler)
 
 	// Wrap around a middleware on it
