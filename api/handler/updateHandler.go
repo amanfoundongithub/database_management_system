@@ -3,10 +3,12 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/amanfoundongithub/database_management_system/api/response"
 	"github.com/amanfoundongithub/database_management_system/database"
 )
 
-func FindInTableHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Method only POST allowed 
 	if r.Method != http.MethodPost {
@@ -15,20 +17,20 @@ func FindInTableHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Call the body 
-	var body map[string]interface{}
+	var body response.UpdateRequest
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "ERR_UNPROCESSABLE_ENTITY", http.StatusUnprocessableEntity)
 		return 
 	}
 	defer r.Body.Close()
 
-	table, tableExist := body["table"] 
-	if !tableExist {
-		http.Error(w, "ERR_TITLE_NOT_GIVEN", http.StatusBadRequest)
-		return 
-	} else {
-		delete(body, "table")
-	}
+	// Title
+	table := body.Table
+	// Set
+	set := body.Set
+	// Where
+	where := body.Where
+
 
 	// Pass it to a handler for SQL
 	sqlServer,err := database.ConnectToDB("users")
@@ -39,17 +41,15 @@ func FindInTableHandler(w http.ResponseWriter, r *http.Request) {
 	defer database.DisconnectToDB(sqlServer) 
 
 	// Search
-	results, err := database.Find(sqlServer, table.(string), body)
+	err = database.Update(sqlServer, table, where, set) 
 
 	if err != nil {
 		http.Error(w, "ERR_SEARCHING_RESULT", http.StatusInternalServerError)
 		return 
 	} else {
+		response := response.CreateSingleMessageResponse("success")
 		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(results); err != nil {
-			http.Error(w, "ERR_GETTING_RESULT", http.StatusInternalServerError)
-			return
-		}
+		json.NewEncoder(w).Encode(response) 
 	}
 
 }

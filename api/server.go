@@ -23,6 +23,9 @@ func CreateDBMSServer() http.Handler {
 	// Search route 
 	server.HandleFunc(constants.SQL_SEARCH_PATH, handler.FindInTableHandler) 
 
+	// Update route
+	server.HandleFunc(constants.SQL_UPDATE_PATH, handler.UpdateHandler) 
+
 	// Wrap the Hello world 
 	server.HandleFunc("/hello", handler.HelloWorldHandler)
 

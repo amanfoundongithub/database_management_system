@@ -1,4 +1,4 @@
 package database
 
-const username = "<your username>"
-const password = "<your password>"
+const username = "<your-username>"
+const password = "<your-password>"

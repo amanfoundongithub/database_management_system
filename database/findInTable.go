@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func SearchInTable(server *sql.DB, table string, entry map[string]interface{}) ([]map[string]interface{}, error) {
+func Find(server *sql.DB, table string, entry map[string]interface{}) ([]map[string]interface{}, error) {
 	// Construct SQL Query
 
 	var whereClauses []string   // Clauses of the form <Column>=?
